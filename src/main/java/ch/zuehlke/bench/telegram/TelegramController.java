@@ -15,10 +15,10 @@ import ch.zuehlke.bench.transport.DelayService;
 import ch.zuehlke.bench.weather.WeatherService;
 
 @Path("/webhook")
-public class Webhook {
+public class TelegramController {
 
 
-    private static final Logger LOG = Logger.getLogger(Webhook.class);
+    private static final Logger LOG = Logger.getLogger(TelegramController.class);
 
     @Inject
     @RestClient
@@ -46,7 +46,7 @@ public class Webhook {
      * @param jsonObject a telegram json message
      */
     @POST
-    public void telegram(JsonObject jsonObject) {
+    public void webHook(JsonObject jsonObject) {
         LOG.infof("Received Message \n %s", jsonObject);
         String message;
         long chatId;
