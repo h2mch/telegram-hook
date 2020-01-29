@@ -53,15 +53,16 @@ public class TelegramController {
 
         Optional<String> body = Optional.empty();
         Optional<String> response = Optional.empty();
+        Optional<CommandExecutor.COMMAND> command;
 
-        TelegramCommand.COMMAND command;
+        String userData;
 
         if (jsonObject.containsKey("callback_query")) {
             try {
                 JsonObject callback_query = jsonObject.getJsonObject("callback_query");
                 chatId = callback_query.getJsonObject("message").getJsonObject("chat").getJsonNumber("id").longValue();
-                String callbackData = callback_query.getJsonString("data").getString();
-                command = TelegramCommand.COMMAND.parseCommand(callbackData);
+                userData = callback_query.getJsonString("data").getString();
+                command = CommandExecutor.parseCommand(userData);
             } catch (Exception e) {
                 LOG.warnf(e, "Could not parse callback message '%s'", jsonObject);
                 return;
@@ -69,37 +70,37 @@ public class TelegramController {
         } else {
             try {
                 JsonObject telegramMessage = jsonObject.getJsonObject("message");
-                message = telegramMessage.getString("text");
+                userData = telegramMessage.getString("text");
                 chatId = telegramMessage.getJsonObject("chat").getJsonNumber("id").longValue();
 
-                switch (message.toLowerCase()) {
+                switch (userData.toLowerCase()) {
                     case "/delay":
                         body = Optional.of("{" +
                                 "  \"reply_markup\": {" +
                                 "    \"inline_keyboard\": [[" +
                                 "      {" +
                                 "        \"text\": \"Luzern->Bern\"," +
-                                "        \"callback_data\": \"" + TelegramCommand.COMMAND.LUZ_BRN.getParameter() + "\"" +
+                                "        \"callback_data\": \"/" + CommandExecutor.COMMAND.LUZ_BRN.name() + "\"" +
                                 "      }," +
                                 "      {" +
                                 "        \"text\": \"Bern->Luzern\"," +
-                                "        \"callback_data\": \"" + TelegramCommand.COMMAND.BRN_LUZ.getParameter() + "\"" +
+                                "        \"callback_data\": \"/" + CommandExecutor.COMMAND.BRN_LUZ.name() + "\"" +
                                 "      }," +
                                 "      {" +
                                 "        \"text\": \"Luzern->Zueri\"," +
-                                "        \"callback_data\": \"" + TelegramCommand.COMMAND.LUZ_ZRH.getParameter() + "\"" +
+                                "        \"callback_data\": \"/" + CommandExecutor.COMMAND.LUZ_ZRH.name() + "\"" +
                                 "      }," +
                                 "      {" +
                                 "        \"text\": \"Zueri->Luzern\"," +
-                                "        \"callback_data\": \"" + TelegramCommand.COMMAND.ZRH_LUZ.getParameter() + "\"" +
+                                "        \"callback_data\": \"/" + CommandExecutor.COMMAND.ZRH_LUZ.name() + "\"" +
                                 "      }," +
                                 "      {" +
                                 "        \"text\": \"Luzern->Basel\"," +
-                                "        \"callback_data\": \"" + TelegramCommand.COMMAND.LUZ_BAS.getParameter() + "\"" +
+                                "        \"callback_data\": \"/" + CommandExecutor.COMMAND.LUZ_BAS.name() + "\"" +
                                 "      }," +
                                 "      {" +
                                 "        \"text\": \"Basel->Luzern\"," +
-                                "        \"callback_data\": \"" + TelegramCommand.COMMAND.BAS_LUZ.getParameter() + "\"" +
+                                "        \"callback_data\": \"/" + CommandExecutor.COMMAND.BAS_LUZ.name() + "\"" +
                                 "      }" +
                                 "    ]]" +
                                 "  }" +
@@ -111,19 +112,19 @@ public class TelegramController {
                                 "    \"inline_keyboard\": [[" +
                                 "      {" +
                                 "        \"text\": \"Luzern\"," +
-                                "        \"callback_data\": \"" + TelegramCommand.COMMAND.LUZ.getParameter() + "\"" +
+                                "        \"callback_data\": \"/" + CommandExecutor.COMMAND.LUZ.name() + "\"" +
                                 "      }," +
                                 "      {" +
                                 "        \"text\": \"Titlis\"," +
-                                "        \"callback_data\": \"" + TelegramCommand.COMMAND.TIT.getParameter() + "\"" +
+                                "        \"callback_data\": \"/" + CommandExecutor.COMMAND.TIT.name() + "\"" +
                                 "      }," +
                                 "      {" +
                                 "        \"text\": \"Engelberg\"," +
-                                "        \"callback_data\": \"" + TelegramCommand.COMMAND.ENG.getParameter() + "\"" +
+                                "        \"callback_data\": \"/" + CommandExecutor.COMMAND.ENG.name() + "\"" +
                                 "      }," +
                                 "      {" +
                                 "        \"text\": \"Bern\"," +
-                                "        \"callback_data\": \"" + TelegramCommand.COMMAND.BER.getParameter() + "\"" +
+                                "        \"callback_data\": \"/" + CommandExecutor.COMMAND.BER.name() + "\"" +
                                 "      }]" +
                                 "    ]" +
                                 "  }" +
@@ -134,7 +135,7 @@ public class TelegramController {
                         response = Optional.of("/temp or /delay");
                         break;
                     default:
-                        LOG.debugf("No Command Message '%s'", message);
+                        LOG.debugf("No Command Message '%s'", userData);
                 }
 
                 if (body.isPresent()) {
@@ -143,22 +144,31 @@ public class TelegramController {
                     return;
                 }
 
-                command = TelegramCommand.COMMAND.parseCommand(message);
+                command = CommandExecutor.parseCommand(userData);
             } catch (Exception e) {
                 LOG.warnf(e, "Could not parse message '%s'", jsonObject);
                 return;
             }
         }
 
+        if (command == null){
+            LOG.warnf("No Command received. message '%s'", userData);
+            return;
+        }
+        if (!command.isPresent()){
+            LOG.warnf("Command not implemented. message '%s'", userData);
+            return;
+        }
+
         try {
-            telegramClient.sendMessage(botToken, chatId + "", response.orElse(produceResponse(command)));
+            telegramClient.sendMessage(botToken, chatId + "", response.orElse(produceResponse(command.get())));
         } catch (Exception e) {
             LOG.errorf(e, "Could not send telegram message");
         }
 
     }
 
-    private String produceResponse(TelegramCommand.COMMAND telegramCommand) {
+    private String produceResponse(CommandExecutor.COMMAND telegramCommand) {
         String response;
         switch (telegramCommand) {
             case LUZ_BRN:
@@ -182,7 +192,7 @@ public class TelegramController {
             case TIT:
             case ENG:
             case LUZ:
-                response = weatherService.getCurrentWeather(telegramCommand.getParameter());
+                response = weatherService.getCurrentWeather(telegramCommand.getParameter()[0]);
                 break;
             default:
                 response = "not supported command";
