@@ -1,0 +1,64 @@
+{
+  "update_id": 876642053,
+  "callback_query": {
+    "chat_instance": "-6156307504816660327",
+    "id": "333579968866538929",
+    "message": {
+      "reply_markup": {
+        "inline_keyboard": [
+          [
+            {
+              "text": "Luzern->Bern",
+              "callback_data": "/LUZ_BRN"
+            },
+            {
+              "text": "Bern->Luzern",
+              "callback_data": "/BRN_LUZ"
+            },
+            {
+              "text": "Luzern->Zueri",
+              "callback_data": "/LUZ_ZRH"
+            },
+            {
+              "text": "Zueri->Luzern",
+              "callback_data": "/ZRH_LUZ"
+            },
+            {
+              "text": "Luzern->Basel",
+              "callback_data": "/LUZ_BAS"
+            },
+            {
+              "text": "Basel->Luzern",
+              "callback_data": "/BAS_LUZ"
+            }
+          ]
+        ]
+      },
+      "chat": {
+        "type": "private",
+        "last_name": "Marti",
+        "id": 77667638,
+        "first_name": "Heinz",
+        "username": "h2mch"
+      },
+      "text": "choice...",
+      "date": 1580311539,
+      "from": {
+        "is_bot": true,
+        "id": 443252330,
+        "first_name": "home",
+        "username": "weinberglistrasse89_bot"
+      },
+      "message_id": 375
+    },
+    "from": {
+      "last_name": "Marti",
+      "first_name": "Heinz",
+      "is_bot": false,
+      "id": 77667638,
+      "username": "h2mch",
+      "language_code": "en"
+    },
+    "data": "/BRN_LUZ"
+  }
+}

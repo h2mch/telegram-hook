@@ -1,0 +1,28 @@
+POST http://localhost:8080/webhook
+Content-Type: application/json
+
+{
+  "update_id": 876642054,
+  "message": {
+    "text": "/LIFT",
+    "date": 1580381445,
+    "from": {
+      "language_code": "en",
+      "last_name": "Marti",
+      "first_name": "Heinz",
+      "is_bot": false,
+      "username": "h2mch",
+      "id": 77667638
+    },
+    "chat": {
+      "type": "private",
+      "last_name": "Marti",
+      "id": 77667638,
+      "first_name": "Heinz",
+      "username": "h2mch"
+    },
+    "message_id": 380
+  }
+}
+
+###
