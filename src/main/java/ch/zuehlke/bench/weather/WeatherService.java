@@ -14,14 +14,21 @@ import javax.inject.Inject;
 import javax.json.JsonNumber;
 import javax.json.JsonObject;
 
+import ch.zuehlke.bench.telegram.TelegramCommand;
+
 @ApplicationScoped
-public class WeatherService {
+public class WeatherService implements TelegramCommand {
 
     private static final Logger LOG = Logger.getLogger(WeatherService.class);
 
     @Inject
     @RestClient
     MeteoSwissClient meteoSwissClient;
+
+    @Override
+    public String execute(String... parameter) {
+        return getCurrentWeather(parameter[0]);
+    }
 
     public String getCurrentWeather(String station) {
         Set<String> stations = new HashSet<>(1);

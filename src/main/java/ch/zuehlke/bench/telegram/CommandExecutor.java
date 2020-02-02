@@ -2,34 +2,46 @@ package ch.zuehlke.bench.telegram;
 
 import java.util.Optional;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Any;
+import javax.enterprise.inject.spi.CDI;
+import javax.enterprise.util.AnnotationLiteral;
+
+import ch.zuehlke.bench.skiarea.TitlisService;
 import ch.zuehlke.bench.transport.DelayService;
 import ch.zuehlke.bench.weather.WeatherService;
 
+@ApplicationScoped
 public class CommandExecutor {
 
     public static final String PREFIX = "/";
 
+
+    public String execute(COMMAND currentCommand) {
+        TelegramCommand cmd = (TelegramCommand) CDI.current().select(currentCommand.clazz, new AnnotationLiteral<Any>() {
+        }).get();
+        return cmd.execute(currentCommand.parameter);
+    }
+
     enum COMMAND {
-        LUZ_BRN(DelayService.class, "getNextDeparture", "LUZ", "BRN"),
-        BRN_LUZ(DelayService.class, "getNextDeparture", "BRN", "LUZ"),
-        LUZ_BAS(DelayService.class, "getNextDeparture", "LUZ", "BAS"),
-        BAS_LUZ(DelayService.class, "getNextDeparture", "BAS", "LUZ"),
-        LUZ_ZRH(DelayService.class, "getNextDeparture", "LUZ", "ZRH"),
-        ZRH_LUZ(DelayService.class, "getNextDeparture", "ZRH", "LUZ"),
-        LUZ(WeatherService.class, "getCurrentWeather", "LUZ"),
-        TIT(WeatherService.class, "getCurrentWeather", "TIT"),
-        BER(WeatherService.class, "getCurrentWeather", "BER"),
-        ENG(WeatherService.class, "getCurrentWeather", "ENG")
-        ;
+        LUZ_BRN(DelayService.class, "LUZ", "BRN"),
+        BRN_LUZ(DelayService.class, "BRN", "LUZ"),
+        LUZ_BAS(DelayService.class, "LUZ", "BAS"),
+        BAS_LUZ(DelayService.class, "BAS", "LUZ"),
+        LUZ_ZRH(DelayService.class, "LUZ", "ZRH"),
+        ZRH_LUZ(DelayService.class, "ZRH", "LUZ"),
+        LUZ(WeatherService.class, "LUZ"),
+        TIT(WeatherService.class, "TIT"),
+        BER(WeatherService.class, "BER"),
+        ENG(WeatherService.class, "ENG"),
+        LIFT(TitlisService.class, null);
 
 
         private Class clazz;
-        private String method;
         private String[] parameter;
 
-        COMMAND(Class clazz, String method, String... parameter) {
+        COMMAND(Class clazz, String... parameter) {
             this.clazz = clazz;
-            this.method = method;
             this.parameter = parameter;
         }
 
@@ -52,4 +64,6 @@ public class CommandExecutor {
         }
         return Optional.empty();
     }
+
+
 }

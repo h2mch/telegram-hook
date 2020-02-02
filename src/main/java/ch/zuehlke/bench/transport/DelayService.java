@@ -10,12 +10,21 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.json.JsonObject;
 
+import ch.zuehlke.bench.telegram.TelegramCommand;
+
 @ApplicationScoped
-public class DelayService {
+public class DelayService implements TelegramCommand {
 
     @Inject
     @RestClient
     OpenDataClient openDataClient;
+
+    @Override
+    public String execute(String... parameter) {
+        String from = parameter[0];
+        String to = parameter[1];
+        return getNextDeparture(from, to);
+    }
 
 
     public String getNextDeparture(String from, String to) {
