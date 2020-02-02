@@ -1,5 +1,6 @@
 # Step 1: build the native image
-FROM oracle/graalvm-ce:19.2.1 as graalVM-build
+FROM oracle/graalvm-ce:19.3.1-java11 as graalVM-build
+#FROM oracle/graalvm-ce:19.2.1 as graalVM-build
 
 # Download and install Maven
 ARG MAVEN_VERSION=3.6.3
@@ -20,8 +21,8 @@ ENV GRAALVM_HOME $JAVA_HOME
 
 # https://quarkus.io/guides/native-and-ssl
 RUN mkdir -p /tmp/ssl-libs/lib \
-  && cp $GRAALVM_HOME/jre/lib/security/cacerts /tmp/ssl-libs \
-  && cp $GRAALVM_HOME/jre/lib/amd64/libsunec.so /tmp/ssl-libs/lib/
+  && cp $GRAALVM_HOME./lib/security/cacerts /tmp/ssl-libs \
+  && cp $GRAALVM_HOME./lib/libsunec.so /tmp/ssl-libs/lib/
 
 WORKDIR /home/app
 
