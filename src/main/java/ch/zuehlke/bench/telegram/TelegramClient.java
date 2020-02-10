@@ -26,5 +26,10 @@ public interface TelegramClient {
     @Produces(MediaType.APPLICATION_JSON)
     JsonObject sendMessageWithBody(@PathParam("token") String token, @QueryParam("chat_id") String chatId, @QueryParam("text") String text, String body);
 
+    @GET
+    @Path("/sendPhoto")
+    @Produces(MediaType.APPLICATION_JSON)
+    JsonObject sendPhoto(@PathParam("token") String token, @QueryParam("chat_id") String chatId, @QueryParam("photo") String urlOfFoto);
+
 
 }

@@ -25,6 +25,10 @@ public class WeatherService implements TelegramCommand {
     @RestClient
     MeteoSwissClient meteoSwissClient;
 
+    @Inject
+    @RestClient
+    MeteoCentraleClient meteoCentraleClient;
+
     @Override
     public String execute(String... parameter) {
         return getCurrentWeather(parameter[0]);

@@ -126,11 +126,12 @@ public class TelegramController {
                                 "}");
 
                         break;
+
                     case "/show":
                         response = Optional.of("/temp or /delay");
                         break;
                     default:
-                        LOG.debugf("No Command Message '%s'", userData);
+                        LOG.debugf("No Menu Message '%s'", userData);
                 }
 
                 if (body.isPresent()) {
@@ -156,8 +157,13 @@ public class TelegramController {
         }
 
         try {
-            telegramClient.sendMessage(botToken, chatId + "", response.orElse(
-                    commandExecutor.execute(command.get())));
+            CommandExecutor.COMMAND currentCommand = command.get();
+            if (currentCommand.isPhoto()) {
+                telegramClient.sendPhoto(botToken, chatId + "", commandExecutor.execute(currentCommand));
+            } else {
+                telegramClient.sendMessage(botToken, chatId + "", response.orElse(
+                        commandExecutor.execute(currentCommand)));
+            }
         } catch (Exception e) {
             LOG.errorf(e, "Could not send telegram message");
         }
