@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import ch.zuehlke.bench.skiarea.TitlisService;
 import ch.zuehlke.bench.transport.DelayService;
+import ch.zuehlke.bench.weather.FoehnService;
 import ch.zuehlke.bench.weather.WeatherService;
 import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
@@ -26,6 +27,9 @@ public class StartUp {
 
     @Inject
     TitlisService ts;
+
+    @Inject
+    FoehnService fs;
 
     void onStart(@Observes StartupEvent ev) {
         LOGGER.info("The application is starting...");
