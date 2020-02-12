@@ -1,5 +1,6 @@
 package ch.zuehlke.bench.weather;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
@@ -13,10 +14,16 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.json.JsonNumber;
 import javax.json.JsonObject;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 
+import ch.zuehlke.bench.telegram.TelegramClient;
 import ch.zuehlke.bench.telegram.TelegramCommand;
 
 @ApplicationScoped
+@Path("/temp")
 public class WeatherService implements TelegramCommand {
 
     private static final Logger LOG = Logger.getLogger(WeatherService.class);
@@ -28,6 +35,24 @@ public class WeatherService implements TelegramCommand {
     @Inject
     @RestClient
     MeteoCentraleClient meteoCentraleClient;
+
+    @Inject
+    @RestClient
+    TelegramClient telegramClient;
+
+
+    @ConfigProperty(name = "telegram.token")
+    String botToken;
+
+    @POST
+    @Path("/{stationId}")
+    public void triggerCurrentTempt(@PathParam("stationId") String stationId, @QueryParam("chatId") String chatId) {
+        Set<String> stations = new HashSet<>(1);
+        stations.add(stationId);
+        String currentWeather = getCurrentWeather(stationId);
+        telegramClient.sendMessage(botToken, chatId, currentWeather);
+    }
+
 
     @Override
     public String execute(String... parameter) {
