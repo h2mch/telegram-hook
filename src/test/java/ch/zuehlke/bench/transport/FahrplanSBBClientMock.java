@@ -12,6 +12,8 @@ public class FahrplanSBBClientMock implements FahrplanSBBClient {
     String stationIdFrom;
     String stationIdDirection;
 
+    private String response;
+
     @Override
     public String getConnections(String productsFilter, String boardType, int disableEquivs, int limit, int start, String styleSheet, int showOldDepature, String stationIdFrom, String stationIdDirection) {
         this.productsFilter = productsFilter;
@@ -24,6 +26,10 @@ public class FahrplanSBBClientMock implements FahrplanSBBClient {
         this.stationIdFrom = stationIdFrom;
         this.stationIdDirection = stationIdDirection;
 
-        return null;
+        return response;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
     }
 }

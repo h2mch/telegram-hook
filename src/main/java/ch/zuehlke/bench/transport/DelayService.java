@@ -85,7 +85,6 @@ public class DelayService implements TelegramCommand {
                 from,
                 to);
 
-
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(Journey.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();

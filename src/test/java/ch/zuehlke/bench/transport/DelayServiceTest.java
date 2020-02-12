@@ -15,6 +15,33 @@ class DelayServiceTest {
 
     DelayService delayService;
 
+    FahrplanSBBClientMock sbbFahrplan;
+
+    @Test
+    void happyCase() {
+        sbbFahrplan.setResponse(
+                "<Journey fpTime=\"22:00\" fpDate=\"12.02.20\" delay=\"-\" platform=\"9\" targetLoc=\"Lausanne\" prod=\"IR 15#IR\" dir=\"Lausanne\" capacity=\"1|1\" is_reachable=\"0\" />\n" +
+                        "<Journey fpTime=\"23:00\" fpDate=\"12.02.20\" delay=\"-\" platform=\"8\" targetLoc=\"Fribourg/Freiburg\" prod=\"IR 15#IR\" dir=\"Fribourg/Freiburg\" capacity=\"1|1\" is_reachable=\"0\" />\n" +
+                        "<Journey fpTime=\"04:50\" fpDate=\"13.02.20\" delay=\"-\" platform=\"2\" targetLoc=\"Bern\" prod=\"RE 4356#RE\" dir=\"Bern\" capacity=\"2|3\" is_reachable=\"0\" />\n" +
+                        "<Journey fpTime=\"06:00\" fpDate=\"13.02.20\" delay=\"-\" platform=\"8\" targetLoc=\"Gen&#232;ve-A&#233;roport\" prod=\"IR 15#IR\" dir=\"Gen&#232;ve-A&#233;roport\" capacity=\"1|1\" is_reachable=\"0\" />\n" +
+                        "<Journey fpTime=\"07:00\" fpDate=\"13.02.20\" delay=\"-\" platform=\"8\" targetLoc=\"Gen&#232;ve-A&#233;roport\" prod=\"IR 15#IR\" dir=\"Gen&#232;ve-A&#233;roport\" capacity=\"1|1\" is_reachable=\"0\" />\n" +
+                        "<Journey fpTime=\"08:00\" fpDate=\"13.02.20\" delay=\"-\" platform=\"8\" targetLoc=\"Gen&#232;ve-A&#233;roport\" prod=\"IR 15#IR\" dir=\"Gen&#232;ve-A&#233;roport\" capacity=\"2|1\" is_reachable=\"0\" />\n" +
+                        "\n");
+
+        String message = delayService.execute("Luzern", "Bern", "interregio");
+
+        assertThat(message.lines().count(), is(1l));
+        assertThat(message, containsString("22:00"));
+    }
+
+    @BeforeEach
+    void setUp() {
+        sbbFahrplan = new FahrplanSBBClientMock();
+        delayService = new DelayService();
+        delayService.sbbFahrplan = sbbFahrplan;
+        delayService.openDataClient = new OpenDataClientMock();
+    }
+
     @Test
     void productBits_empty() {
         String productBits = delayService.setProductBitForTrain("", "");
@@ -65,12 +92,5 @@ class DelayServiceTest {
         Assertions.assertThrows(IllegalArgumentException.class, () ->
                 delayService.setProductBitForTrain("", "unknown")
         );
-    }
-
-    @BeforeEach
-    void setUp() {
-        delayService = new DelayService();
-        delayService.sbbFahrplan = new FahrplanSBBClientMock();
-        delayService.openDataClient = new OpenDataClientMock();
     }
 }
