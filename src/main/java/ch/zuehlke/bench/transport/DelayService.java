@@ -28,6 +28,8 @@ import ch.zuehlke.bench.telegram.TelegramCommand;
 @Path("/delay")
 public class DelayService implements TelegramCommand {
 
+    public static final String ALL_PRODUCTS = "1111111111";
+
     @Inject
     @RestClient
     OpenDataClient openDataClient;
@@ -40,13 +42,11 @@ public class DelayService implements TelegramCommand {
     public String execute(String... parameter) {
         String from = parameter[0];
         String to = parameter[1];
-        StringBuilder products = new StringBuilder("0000000000");
+        String products = "";
         if (parameter.length == 3) {
-            for (char c : parameter[2].toCharArray()) {
-                setProductBits(products, c);
-            }
+            products = setProductBitForTrain(products, parameter[2]);
         }
-        return getNextDepartureSBB(from, to, products.toString());
+        return getNextDepartureSBB(from, to, products);
     }
 
     private String findStationId(String name) {
@@ -144,6 +144,77 @@ public class DelayService implements TelegramCommand {
             sb.append(" at platform ").append(from.getString("platform"));
         }
         return sb.toString();
+    }
+
+    private String setBit(int i, String trainproduct) {
+        char[] oldProduct = trainproduct.toCharArray();
+        char[] newProduct;
+        int length = trainproduct.length();
+        if (i < length) {
+            newProduct = oldProduct;
+        } else {
+            newProduct = new char[i + 1];
+            for (int j = 0; j < length; j++) {
+                newProduct[j] = oldProduct[j];
+            }
+            for (int j = length; j < i; j++) {
+                newProduct[j] = '0';
+            }
+        }
+        newProduct[i] = '1';
+        return new String(newProduct);
+    }
+
+    String setProductBitForTrain(String productBit, String trainproduct) {
+
+        if (trainproduct == null || trainproduct.isEmpty()) {
+            return ALL_PRODUCTS;
+        }
+
+        switch (trainproduct.toLowerCase()) {
+            case "ice":
+            case "en":
+            case "cnl":
+            case "cis":
+            case "es":
+            case "met":
+            case "nz":
+            case "pen":
+            case "tgv":
+            case "tha":
+            case "x2":
+                return setBit(0, productBit);
+            case "eurocity":
+            case "intercity":
+            case "intercitynight":
+            case "supercity":
+                return setBit(1, productBit);
+            case "interregio":
+                return setBit(2, productBit);
+            case "schnellzug":
+            case "regioexpress":
+                return setBit(3, productBit);
+            case "s-bahn":
+            case "stadtexpress":
+            case "regionalzug":
+                return setBit(5, productBit);
+            case "metro":
+            case "tram":
+                return setBit(9, productBit);
+            case "bus":
+            case "postauto":
+                return setBit(6, productBit);
+            case "schiff":
+            case "fähre":
+            case "dampfschiff":
+                return setBit(4, productBit);
+            case "luftseilbahn":
+            case "standseilbahn":
+            case "bergbahn":
+                return setBit(7, productBit);
+            default:
+                throw new IllegalArgumentException("cannot handle: " + trainproduct);
+        }
     }
 
     void setProductBits(final StringBuilder productBits, final char product) {

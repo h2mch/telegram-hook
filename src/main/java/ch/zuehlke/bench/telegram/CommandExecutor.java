@@ -40,8 +40,8 @@ public class CommandExecutor {
     }
 
     enum COMMAND {
-        LUZ_BRN(DelayService.class, false, "luzern", "bern", "IR"),
-        BRN_LUZ(DelayService.class, false, "bern", "luzern", "IR"),
+        LUZ_BRN(DelayService.class, false, "luzern", "bern", "interregio"),
+        BRN_LUZ(DelayService.class, false, "bern", "luzern", "interregio"),
         LUZ_BAS(DelayService.class, false, "Luzern", "basel"),
         BAS_LUZ(DelayService.class, false, "basel", "luzern"),
         LUZ_ZRH(DelayService.class, false, "luzern", "zürich"),

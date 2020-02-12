@@ -19,3 +19,8 @@ gcloud container images list-tags gcr.io/quarkus-265809/webhook --filter='-tags:
 λ $token = 'your-bot-token'
 λ $url = 'your-cloud-function-endpoint'
 λ Invoke-WebRequest https://api.telegram.org/bot$token/setWebhook?url=$url
+
+
+# Shortcut for clouddeployment
+λ docker build . --tag  gcr.io/quarkus-265809/webhook
+λ gcloud run deploy webhook --image gcr.io/quarkus-265809/webhook --platform managed --region europe-west1 --allow-unauthenticated
