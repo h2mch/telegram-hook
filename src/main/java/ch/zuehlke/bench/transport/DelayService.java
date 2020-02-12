@@ -1,6 +1,7 @@
 package ch.zuehlke.bench.transport;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.jboss.logging.Logger;
 
 import java.io.StringReader;
 import java.time.Instant;
@@ -29,6 +30,8 @@ import ch.zuehlke.bench.telegram.TelegramCommand;
 public class DelayService implements TelegramCommand {
 
     public static final String ALL_PRODUCTS = "1111111111";
+
+    private static final Logger LOG = Logger.getLogger(DelayService.class);
 
     @Inject
     @RestClient
@@ -94,7 +97,7 @@ public class DelayService implements TelegramCommand {
                 try {
                     journeys.add((Journey) jaxbUnmarshaller.unmarshal(new StringReader(line)));
                 } catch (JAXBException e) {
-                    e.printStackTrace();
+                    LOG.warn("Could not parse line '" + line + "'", e);
                 }
             });
             return journeys;

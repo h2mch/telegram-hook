@@ -25,8 +25,7 @@ class DelayServiceTest {
                         "<Journey fpTime=\"04:50\" fpDate=\"13.02.20\" delay=\"-\" platform=\"2\" targetLoc=\"Bern\" prod=\"RE 4356#RE\" dir=\"Bern\" capacity=\"2|3\" is_reachable=\"0\" />\n" +
                         "<Journey fpTime=\"06:00\" fpDate=\"13.02.20\" delay=\"-\" platform=\"8\" targetLoc=\"Gen&#232;ve-A&#233;roport\" prod=\"IR 15#IR\" dir=\"Gen&#232;ve-A&#233;roport\" capacity=\"1|1\" is_reachable=\"0\" />\n" +
                         "<Journey fpTime=\"07:00\" fpDate=\"13.02.20\" delay=\"-\" platform=\"8\" targetLoc=\"Gen&#232;ve-A&#233;roport\" prod=\"IR 15#IR\" dir=\"Gen&#232;ve-A&#233;roport\" capacity=\"1|1\" is_reachable=\"0\" />\n" +
-                        "<Journey fpTime=\"08:00\" fpDate=\"13.02.20\" delay=\"-\" platform=\"8\" targetLoc=\"Gen&#232;ve-A&#233;roport\" prod=\"IR 15#IR\" dir=\"Gen&#232;ve-A&#233;roport\" capacity=\"2|1\" is_reachable=\"0\" />\n" +
-                        "\n");
+                        "<Journey fpTime=\"08:00\" fpDate=\"13.02.20\" delay=\"-\" platform=\"8\" targetLoc=\"Gen&#232;ve-A&#233;roport\" prod=\"IR 15#IR\" dir=\"Gen&#232;ve-A&#233;roport\" capacity=\"2|1\" is_reachable=\"0\" />\n");
 
         String message = delayService.execute("Luzern", "Bern", "interregio");
 
@@ -75,7 +74,6 @@ class DelayServiceTest {
         prodcutBits = delayService.setProductBitForTrain(prodcutBits, "ice");
         prodcutBits = delayService.setProductBitForTrain(prodcutBits, "postauto");
 
-        System.out.println(prodcutBits);
         assertThat(prodcutBits, startsWith("11")); //ice und intercity
         assertThat(prodcutBits, endsWith("1")); // postauto
         assertThat(prodcutBits, containsString("0"));
