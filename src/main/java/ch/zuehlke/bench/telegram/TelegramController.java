@@ -74,28 +74,36 @@ public class TelegramController {
                                 "  \"reply_markup\": {" +
                                 "    \"inline_keyboard\": [[" +
                                 "      {" +
-                                "        \"text\": \"Luzern->Bern\"," +
+                                "        \"text\": \"Luz>\"," +
                                 "        \"callback_data\": \"/" + CommandExecutor.COMMAND.LUZ_BRN.name() + "\"" +
                                 "      }," +
                                 "      {" +
-                                "        \"text\": \"Bern->Luzern\"," +
+                                "        \"text\": \"<Brn\"," +
                                 "        \"callback_data\": \"/" + CommandExecutor.COMMAND.BRN_LUZ.name() + "\"" +
                                 "      }," +
                                 "      {" +
-                                "        \"text\": \"Luzern->Zueri\"," +
+                                "        \"text\": \"Luz>\"," +
                                 "        \"callback_data\": \"/" + CommandExecutor.COMMAND.LUZ_ZRH.name() + "\"" +
                                 "      }," +
                                 "      {" +
-                                "        \"text\": \"Zueri->Luzern\"," +
+                                "        \"text\": \"<Zrh\"," +
                                 "        \"callback_data\": \"/" + CommandExecutor.COMMAND.ZRH_LUZ.name() + "\"" +
-                                "      }," +
+                                "      }],[" +
                                 "      {" +
-                                "        \"text\": \"Luzern->Basel\"," +
+                                "        \"text\": \"Luz>\"," +
                                 "        \"callback_data\": \"/" + CommandExecutor.COMMAND.LUZ_BAS.name() + "\"" +
                                 "      }," +
                                 "      {" +
-                                "        \"text\": \"Basel->Luzern\"," +
+                                "        \"text\": \"<Bas\"," +
                                 "        \"callback_data\": \"/" + CommandExecutor.COMMAND.BAS_LUZ.name() + "\"" +
+                                "      }," +
+                                "      {" +
+                                "        \"text\": \"Bas>\"," +
+                                "        \"callback_data\": \"/" + CommandExecutor.COMMAND.BAS_BRN.name() + "\"" +
+                                "      }," +
+                                "      {" +
+                                "        \"text\": \"<Brn\"," +
+                                "        \"callback_data\": \"/" + CommandExecutor.COMMAND.BRN_BAS.name() + "\"" +
                                 "      }" +
                                 "    ]]" +
                                 "  }" +

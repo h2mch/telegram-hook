@@ -40,16 +40,20 @@ public class CommandExecutor {
     }
 
     enum COMMAND {
-        LUZ_BRN(DelayService.class, false, "LUZ", "BRN", "0010000000"),
-        BRN_LUZ(DelayService.class, false, "BRN", "LUZ", "0010000000"),
-        LUZ_BAS(DelayService.class, false, "LUZ", "BAS"),
-        BAS_LUZ(DelayService.class, false, "BAS", "LUZ"),
-        LUZ_ZRH(DelayService.class, false, "LUZ", "ZRH"),
-        ZRH_LUZ(DelayService.class, false, "ZRH", "LUZ"),
+        LUZ_BRN(DelayService.class, false, "luzern", "bern", "IR"),
+        BRN_LUZ(DelayService.class, false, "bern", "luzern", "IR"),
+        LUZ_BAS(DelayService.class, false, "Luzern", "basel"),
+        BAS_LUZ(DelayService.class, false, "basel", "luzern"),
+        LUZ_ZRH(DelayService.class, false, "luzern", "zürich"),
+        ZRH_LUZ(DelayService.class, false, "zürich", "luzern"),
+        BAS_BRN(DelayService.class, false, "basel", "bern"),
+        BRN_BAS(DelayService.class, false, "bern", "basel"),
         LUZ(WeatherService.class, false, "LUZ"),
         TIT(WeatherService.class, false, "TIT"),
         BER(WeatherService.class, false, "BER"),
+        BAS(WeatherService.class, false, "BAS"),
         ENG(WeatherService.class, false, "ENG"),
+        ALT(WeatherService.class, false, "ALT"),
         LIFT(TitlisService.class, false, new String[]{}),
         FOEHN(FoehnService.class, true, new String[]{});
 

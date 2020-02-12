@@ -40,7 +40,7 @@ public class DelayService implements TelegramCommand {
     public String execute(String... parameter) {
         String from = parameter[0];
         String to = parameter[1];
-        StringBuilder products = new StringBuilder();
+        StringBuilder products = new StringBuilder("0000000000");
         if (parameter.length == 3) {
             for (char c : parameter[2].toCharArray()) {
                 setProductBits(products, c);
@@ -62,7 +62,7 @@ public class DelayService implements TelegramCommand {
                 return "8500010";
 
             default:
-                throw new IllegalArgumentException("No mapping for " + name + "exists");
+                throw new IllegalArgumentException("No mapping for " + name + " exists");
         }
     }
 
@@ -146,8 +146,7 @@ public class DelayService implements TelegramCommand {
         return sb.toString();
     }
 
-    private void setProductBits(final StringBuilder productBits, final char product) {
-
+    void setProductBits(final StringBuilder productBits, final char product) {
         switch (product) {
             case 'I':
                 productBits.setCharAt(0, '1'); // ICE/EN/CNL/CIS/ES/MET/NZ/PEN/TGV/THA/X2
@@ -155,6 +154,8 @@ public class DelayService implements TelegramCommand {
                 break;
             case 'R':
                 productBits.setCharAt(2, '1'); // InterRegio
+                break;
+            case 'E':
                 productBits.setCharAt(3, '1'); // Schnellzug/RegioExpress
                 break;
             case 'S': // S-Bahn/StadtExpress/Regionalzug
