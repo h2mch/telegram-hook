@@ -74,36 +74,44 @@ public class TelegramController {
                                 "  \"reply_markup\": {" +
                                 "    \"inline_keyboard\": [[" +
                                 "      {" +
-                                "        \"text\": \"Luz>\"," +
-                                "        \"callback_data\": \"/" + CommandExecutor.COMMAND.LUZ_BRN.name() + "\"" +
-                                "      }," +
-                                "      {" +
-                                "        \"text\": \"<Brn\"," +
-                                "        \"callback_data\": \"/" + CommandExecutor.COMMAND.BRN_LUZ.name() + "\"" +
-                                "      }," +
-                                "      {" +
-                                "        \"text\": \"Luz>\"," +
-                                "        \"callback_data\": \"/" + CommandExecutor.COMMAND.LUZ_ZRH.name() + "\"" +
-                                "      }," +
-                                "      {" +
-                                "        \"text\": \"<Zrh\"," +
-                                "        \"callback_data\": \"/" + CommandExecutor.COMMAND.ZRH_LUZ.name() + "\"" +
-                                "      }],[" +
-                                "      {" +
-                                "        \"text\": \"Luz>\"," +
-                                "        \"callback_data\": \"/" + CommandExecutor.COMMAND.LUZ_BAS.name() + "\"" +
-                                "      }," +
-                                "      {" +
-                                "        \"text\": \"<Bas\"," +
-                                "        \"callback_data\": \"/" + CommandExecutor.COMMAND.BAS_LUZ.name() + "\"" +
-                                "      }," +
-                                "      {" +
-                                "        \"text\": \"Bas>\"," +
+                                "        \"text\": \"Basel>\"," +
                                 "        \"callback_data\": \"/" + CommandExecutor.COMMAND.BAS_BRN.name() + "\"" +
                                 "      }," +
                                 "      {" +
-                                "        \"text\": \"<Brn\"," +
+                                "        \"text\": \"<Bern\"," +
                                 "        \"callback_data\": \"/" + CommandExecutor.COMMAND.BRN_BAS.name() + "\"" +
+                                "      }," +
+                                "      {" +
+                                "        \"text\": \"Luzern>\"," +
+                                "        \"callback_data\": \"/" + CommandExecutor.COMMAND.LUZ_BRN.name() + "\"" +
+                                "      }," +
+                                "      {" +
+                                "        \"text\": \"<Bern\"," +
+                                "        \"callback_data\": \"/" + CommandExecutor.COMMAND.BRN_LUZ.name() + "\"" +
+                                "      }],[" +
+                                "      {" +
+                                "        \"text\": \"Luzern>\"," +
+                                "        \"callback_data\": \"/" + CommandExecutor.COMMAND.LUZ_ZRH.name() + "\"" +
+                                "      }," +
+                                "      {" +
+                                "        \"text\": \"<Zürich\"," +
+                                "        \"callback_data\": \"/" + CommandExecutor.COMMAND.ZRH_LUZ.name() + "\"" +
+                                "      }," +
+                                "      {" +
+                                "        \"text\": \"Luzern>\"," +
+                                "        \"callback_data\": \"/" + CommandExecutor.COMMAND.LUZ_BAS.name() + "\"" +
+                                "      }," +
+                                "      {" +
+                                "        \"text\": \"<Basel\"," +
+                                "        \"callback_data\": \"/" + CommandExecutor.COMMAND.BAS_LUZ.name() + "\"" +
+                                "      }],[" +
+                                "      {" +
+                                "        \"text\": \"Home>\"," +
+                                "        \"callback_data\": \"/" + CommandExecutor.COMMAND.HOM_LUZ.name() + "\"" +
+                                "      }," +
+                                "      {" +
+                                "        \"text\": \"<Luzern\"," +
+                                "        \"callback_data\": \"/" + CommandExecutor.COMMAND.LUZ_HOM.name() + "\"" +
                                 "      }" +
                                 "    ]]" +
                                 "  }" +
@@ -132,9 +140,7 @@ public class TelegramController {
                                 "    ]" +
                                 "  }" +
                                 "}");
-
                         break;
-
                     case "/show":
                         response = Optional.of("/temp or /delay");
                         break;

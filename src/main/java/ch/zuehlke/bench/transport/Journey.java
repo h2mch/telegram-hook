@@ -139,9 +139,12 @@ public class Journey {
         if (!delay.equals("-")) {
             sb.append(delay);
         }
-        sb.append(" at ").append(newpl != null ? newpl : platform);
-        sb.append(" (").append(capacity).append(")");
-
+        if (newpl != null || platform != null) {
+            sb.append(" at ").append(newpl != null ? newpl + "!" : platform);
+        }
+        if (!("0|0".equals(capacity))) {
+            sb.append(" (").append(capacity).append(")");
+        }
         if (himMessage != null) {
             sb.append("\n").append(himMessage.toString());
         }

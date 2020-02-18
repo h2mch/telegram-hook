@@ -10,6 +10,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -57,12 +58,16 @@ public class DelayService implements TelegramCommand {
         switch (name.toLowerCase()) {
             case "luzern":
                 return "8505000";
+            case "luzern-bus":
+                return "8508450";
             case "zürich":
                 return "8503000";
             case "bern":
                 return "8507000";
             case "basel":
                 return "8500010";
+            case "home":  //Luzern, Stermnatt
+                return "8589841";
 
             default:
                 throw new IllegalArgumentException("No mapping for " + name + " exists");
@@ -122,7 +127,15 @@ public class DelayService implements TelegramCommand {
         String fromStationId = findStationId(from);
         String toStationId = findStationId(to);
         List<Journey> next10DepartureSBB = getNext10DepartureSBB(fromStationId, toStationId, products);
-        return next10DepartureSBB.stream().findFirst().get().toString();
+        Optional<Journey> next = next10DepartureSBB.stream().findFirst();
+        if (next.isPresent()) {
+            return next.get().toString();
+        } else {
+            LOG.warnf("no connection found between '%s' (stationId=%s) and " +
+                            "'%s' (stationId=%s) with products '%s'",
+                    from, fromStationId, to, toStationId, products);
+            return "no connection found between " + from + " and " + to;
+        }
 
     }
 
@@ -216,40 +229,6 @@ public class DelayService implements TelegramCommand {
                 return setBit(7, productBit);
             default:
                 throw new IllegalArgumentException("cannot handle: " + trainproduct);
-        }
-    }
-
-    void setProductBits(final StringBuilder productBits, final char product) {
-        switch (product) {
-            case 'I':
-                productBits.setCharAt(0, '1'); // ICE/EN/CNL/CIS/ES/MET/NZ/PEN/TGV/THA/X2
-                productBits.setCharAt(1, '1'); // EuroCity/InterCity/InterCityNight/SuperCity
-                break;
-            case 'R':
-                productBits.setCharAt(2, '1'); // InterRegio
-                break;
-            case 'E':
-                productBits.setCharAt(3, '1'); // Schnellzug/RegioExpress
-                break;
-            case 'S': // S-Bahn/StadtExpress/Regionalzug
-                productBits.setCharAt(5, '1');
-                break;
-            case 'U': // Metro
-            case 'T': // Tram
-                productBits.setCharAt(9, '1');
-                break;
-            case 'B': // Bus
-            case 'P': // Postauto
-                productBits.setCharAt(6, '1');
-                break;
-            case 'F': // Schiff/Fähre/Dampfschiff
-                productBits.setCharAt(4, '1');
-                break;
-            case 'C': // Luftseilbahn/Standseilbahn/Bergbahn
-                productBits.setCharAt(7, '1');
-                break;
-            default:
-                throw new IllegalArgumentException("cannot handle: " + product);
         }
     }
 
