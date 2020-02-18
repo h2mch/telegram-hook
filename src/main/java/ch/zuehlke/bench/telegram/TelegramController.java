@@ -142,7 +142,29 @@ public class TelegramController {
                                 "}");
                         break;
                     case "/show":
-                        response = Optional.of("/temp or /delay");
+                    case "/start":
+                        body = Optional.of("{" +
+                                "  \"text\": \"Keyboard\"," +
+                                "  \"chat_id\": " + chatId + "," +
+                                "  \"reply_markup\": {" +
+                                "    \"keyboard\": [[" +
+                                "      {" +
+                                "        \"text\": \"/delay\"" +
+                                "      }," +
+                                "      {" +
+                                "        \"text\": \"/temp\"" +
+                                "      }" +
+                                "    ],[" +
+                                "      {" +
+                                "        \"text\": \"/foehn\"" +
+                                "      }," +
+                                "      {" +
+                                "        \"text\": \"/lift\"" +
+                                "      }]" +
+                                "    ]," +
+                                "    \"resize_keyboard\": true" +
+                                "  }" +
+                                "}");
                         break;
                     default:
                         LOG.debugf("No Menu Message '%s'", userData);
