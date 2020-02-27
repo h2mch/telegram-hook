@@ -1,10 +1,10 @@
 package ch.zuehlke.bench.weather;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
-import org.jboss.logging.Logger;
 
-import java.io.File;
 import java.time.LocalDate;
+import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -16,24 +16,18 @@ import io.quarkus.arc.Unremovable;
 @Unremovable
 public class FoehnService implements TelegramCommand {
 
-    public static final String FOEHN_DIAGRAMM = "http://www.meteocentrale.ch/uploads/pics/uwz-ch_foehn_de.png%3F?";
-    private static final Logger LOG = Logger.getLogger(FoehnService.class);
+    private static final String CONFIG_FOEHN_URL = "weather.foehn.url";
+
+    @ConfigProperty(name = CONFIG_FOEHN_URL)
+    Optional<String> url;
+
     @Inject
     @RestClient
     MeteoCentraleClient meteoCentraleClient;
 
     @Override
     public String execute(String... parameter) {
-        return FOEHN_DIAGRAMM + LocalDate.now().toEpochDay();
+        return url.get() + "?" + LocalDate.now().toEpochDay();
     }
 
-    public String getCurrentFoehnDiagramm() {
-
-        File foehnDiagram = meteoCentraleClient.getFoehnDiagram();
-        if (foehnDiagram == null) {
-            return "Could not find image";
-        }
-
-        return "found ;-)";
-    }
 }
