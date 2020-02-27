@@ -136,8 +136,12 @@ public class Journey {
         StringBuilder sb = new StringBuilder();
 
         sb.append("next depature ").append(fpTime);
-        if (!delay.equals("-")) {
-            sb.append(delay);
+        if (!"-".equals(delay)) {
+            if (e_delay != null && !e_delay.isEmpty()) {
+                sb.append(" +").append(e_delay);
+            } else {
+                sb.append(" ").append(delay);
+            }
         }
         if (newpl != null || platform != null) {
             sb.append(" at ").append(newpl != null ? newpl + "!" : platform);
