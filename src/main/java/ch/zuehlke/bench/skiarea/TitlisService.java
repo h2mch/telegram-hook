@@ -11,32 +11,25 @@ import java.io.IOException;
 import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import ch.zuehlke.bench.telegram.TelegramCommand;
 import io.quarkus.arc.Unremovable;
 
 @ApplicationScoped
+@Path("/ski/titlis")
+@Unremovable
 public class TitlisService implements TelegramCommand {
-
 
     private static final Logger LOG = Logger.getLogger(TitlisService.class);
 
-    @Inject
-    @ConfigProperty(name = "skiarea.titlis.url")
+    private static final String CONFIG_TITLIS_URL = "skiarea.titlis.url";
+
+    @ConfigProperty(name = CONFIG_TITLIS_URL)
     Optional<String> url;
-
-    private Connection connect;
-
-    public TitlisService() {
-        if (url != null && url.isPresent()) {
-            connect = Jsoup.connect(url.get());
-        }
-    }
-
-    TitlisService(Connection connect) {
-        this.connect = connect;
-    }
 
     @Override
     public String execute(String... parameter) {
@@ -48,11 +41,10 @@ public class TitlisService implements TelegramCommand {
         return "Command not working.";
     }
 
-
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
     public String extractLiveLiftsInformation() throws IOException {
-        if (url.isEmpty()) {
-            return "url for titlis not configured";
-        }
+        Connection connect = Jsoup.connect(url.orElseThrow(() -> new InformationNotFoundException("URL '" + CONFIG_TITLIS_URL + "' not configured")));
         Document doc = connect.get();
         Elements callout_primary = doc.getElementsByClass("callout primary");
         if (callout_primary == null || callout_primary.size() != 1) {
