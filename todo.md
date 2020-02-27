@@ -1,6 +1,6 @@
 
 Build / Deploy Prozess
-[ ] docker maven build "go offline" 
+[x] docker maven build "go offline" 
 [ ] automate build and deploy (inkl. rollback) use terraform?
 
 Feature
@@ -8,3 +8,6 @@ Feature
 
 Quality
 [ ] Add / Harmonize Integration Tests
+
+Bug
+[ ] Dependency Injection of RestClient in Test not working
