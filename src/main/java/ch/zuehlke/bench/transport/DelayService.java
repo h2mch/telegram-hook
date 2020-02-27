@@ -4,7 +4,9 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
 import java.io.StringReader;
+import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -25,20 +27,17 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import ch.zuehlke.bench.telegram.TelegramCommand;
+import io.quarkus.arc.Unremovable;
 
 @ApplicationScoped
 @Path("/delay")
+@Unremovable
 public class DelayService implements TelegramCommand {
 
     public static final String ALL_PRODUCTS = "1111111111";
 
     private static final Logger LOG = Logger.getLogger(DelayService.class);
 
-    @Inject
-    @RestClient
-    OpenDataClient openDataClient;
-
-    @Inject
     @RestClient
     FahrplanSBBClient sbbFahrplan;
 

@@ -14,6 +14,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import ch.zuehlke.bench.telegram.TelegramCommand;
+import io.quarkus.arc.Unremovable;
 
 @ApplicationScoped
 public class TitlisService implements TelegramCommand {

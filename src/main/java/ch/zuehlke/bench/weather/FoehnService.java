@@ -10,8 +10,10 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import ch.zuehlke.bench.telegram.TelegramCommand;
+import io.quarkus.arc.Unremovable;
 
 @ApplicationScoped
+@Unremovable
 public class FoehnService implements TelegramCommand {
 
     public static final String FOEHN_DIAGRAMM = "http://www.meteocentrale.ch/uploads/pics/uwz-ch_foehn_de.png%3F?";

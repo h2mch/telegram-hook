@@ -6,12 +6,14 @@ import org.jboss.logging.Logger;
 
 import java.util.Optional;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.json.JsonObject;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
 @Path("/webhook")
+@RequestScoped
 public class TelegramController {
 
 

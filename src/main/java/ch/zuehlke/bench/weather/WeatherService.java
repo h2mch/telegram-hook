@@ -21,9 +21,11 @@ import javax.ws.rs.QueryParam;
 
 import ch.zuehlke.bench.telegram.TelegramClient;
 import ch.zuehlke.bench.telegram.TelegramCommand;
+import io.quarkus.arc.Unremovable;
 
 @ApplicationScoped
 @Path("/temp")
+@Unremovable
 public class WeatherService implements TelegramCommand {
 
     private static final Logger LOG = Logger.getLogger(WeatherService.class);
