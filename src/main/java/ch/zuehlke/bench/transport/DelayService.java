@@ -13,9 +13,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import javax.json.JsonObject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -111,14 +111,16 @@ public class DelayService implements TelegramCommand {
         return Collections.emptyList();
     }
 
-    @GET
-    @Path("/opendata")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String getNextDepartureOpenData(@QueryParam("from") String from, @QueryParam("to") String to) {
-        JsonObject response = openDataClient.getConnections(from, to, 1, 1);
-        JsonObject nextConnection = response.getJsonArray("connections").getJsonObject(0);
-        return buildDelayText(nextConnection);
+    private LocalTime cowboyTimeConverter(Journey first) {
+        return LocalTime.of(Integer.parseInt(first.getFpTime().split(":")[0]), Integer.parseInt(first.getFpTime().split(":")[1]));
+    }
 
+    private String getJourneysWithin15minutes(List<Journey> next10DepartureSBB, Optional<Journey> first) {
+        LocalTime startTime = cowboyTimeConverter(first.get());
+        return next10DepartureSBB.stream()
+                .filter(journey -> Math.abs(Duration.between(startTime, cowboyTimeConverter(journey)).getSeconds()) < (15 * 60))
+                .map(journey -> journey.toString())
+                .collect(Collectors.joining("\n"));
     }
 
     private String getNextDepartureSBB(String from, String to, String products) {
@@ -126,9 +128,9 @@ public class DelayService implements TelegramCommand {
         String fromStationId = findStationId(from);
         String toStationId = findStationId(to);
         List<Journey> next10DepartureSBB = getNext10DepartureSBB(fromStationId, toStationId, products);
-        Optional<Journey> next = next10DepartureSBB.stream().findFirst();
-        if (next.isPresent()) {
-            return next.get().toString();
+        Optional<Journey> first = next10DepartureSBB.stream().findFirst();
+        if (first.isPresent()) {
+            return getJourneysWithin15minutes(next10DepartureSBB, first);
         } else {
             LOG.warnf("no connection found between '%s' (stationId=%s) and " +
                             "'%s' (stationId=%s) with products '%s'",
