@@ -1,0 +1,112 @@
+#accessId=MJXZ841ZfsmqqmSymWhBPy5dMNoqoGsHInHbWJQ5PTUZOJ1rLTkn8vVZOZDFfSe
+#accessId=sbuR5gsaDCEzWpCzSuEnxJOmDbb5vEM1vf0tWwjY3s6eab2uj8dAiLvjisGKDnN
+#accessId=sbuR5gsaDCEzWpCzSuEnxJOmDbb5vEM1vf0tWwjY3s6eab2uj8dAiLvjisGKDnN
+
+
+
+POST http://xmlfahrplan.sbb.ch/bin/extxml.exe
+Content-Type: text/xml
+Accept: text/xml
+Connection: close
+
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ReqC lang="EN" prod="iPhone3.1" ver="2.3"
+      accessId="sbuR5gsaDCEzWpCzSuEnxJOmDbb5vEM1vf0tWwjY3s6eab2uj8dAiLvjisGKDnN">
+    <LocValReq id="toInput" sMode="1">
+        <ReqLoc match="Luzern" type="ALLTYPE"/>
+    </LocValReq>
+</ReqC>
+
+###
+POST http://xmlfahrplan.sbb.ch/bin/extxml.exe
+Content-Type: text/xml
+Accept: text/xml
+Connection: close
+
+&quot;xml=&lt;?xml&gt;&quot;
+        &lt;?xml version=&quot;1.0&quot; encoding=&quot;iso-8859-1&quot;?&gt;
+        &lt;ReqC lang=&quot;EN&quot; prod=&quot;iPhone3.1&quot; ver=&quot;2.3&quot;
+        accessId=&quot;sbuR5gsaDCEzWpCzSuEnxJOmDbb5vEM1vf0tWwjY3s6eab2uj8dAiLvjisGKDnN&quot;&gt;
+        &lt;LocValReq id=&quot;toInput&quot; sMode=&quot;1&quot;&gt;
+        &lt;ReqLoc match=&quot;Luzern&quot; type=&quot;ALLTYPE&quot;/&gt;
+        &lt;/LocValReq&gt;
+        &lt;/ReqC&gt;
+
+###
+
+ # Zürich=8503000
+GET http://fahrplan.sbb.ch/bin/stboard.exe/dn?productsFilter=11111&boardType=dep&disableEquivs=0&maxJourneys=20&start=yes&L=vs_java3&input=8503000
+Content-Type: application/json
+Accept: application/json
+
+
+
+######
+ # Sternmatt=8589841
+GET http://fahrplan.sbb.ch/bin/stboard.exe/dn?productsFilter=11111111&boardType=dep&disableEquivs=1&maxJourneys=20&start=yes&L=vs_java3&input=8508450&dirInput=8589841
+Content-Type: application/json
+Accept: application/json
+
+
+
+
+###
+# Aigle=8501400
+GET http://fahrplan.sbb.ch/bin/stboard.exe/dn?productsFilter=11111&boardType=dep&disableEquivs=0&maxJourneys=20&start=yes&L=vs_java3&input=8501400
+Content-Type: application/json
+Accept: application/json
+
+
+
+
+###
+
+
+###
+
+
+ # Bern  =8507000
+GET http://fahrplan.sbb.ch/bin/stboard.exe/dn?productsFilter=00100&boardType=dep&disableEquivs=0&maxJourneys=10&start=yes&L=vs_java3&input=8507000
+Content-Type: application/json
+Accept: application/json
+
+###
+ # Luzern=8505000
+#GET http://fahrplan.sbb.ch/bin/stboard.exe/dn?productsFilter=11100&boardType=dep&maxJourneys=10&start=no&L=vs_java3&input=8505000
+#GET http://fahrplan.sbb.ch/bin/stboard.exe/dn?productsFilter=11100&boardType=dep&maxJourneys=10&start=no&L=vs_java3&input=8505000&dirInput=8507000
+GET http://fahrplan.sbb.ch/bin/stboard.exe/dn?productsFilter=001&boardType=dep&maxJourneys=10&start=no&L=vs_java3&input=8505000&dirInput=8507000
+
+
+Content-Type: application/json
+Accept: application/json
+
+###
+POST https://api.telegram.org/bot443252330:AAG1qRKi5FV3bsAqr6KGud-GtJGqjJt24HI/sendMessage?chat_id=77667638&text=menu
+content-type: application/json
+
+{
+  "text": "Keyboard",
+  "chat_id": 77667638,
+  "reply_markup": {
+    "keyboard": [
+      [
+        {
+          "text": "/delay"
+        },
+        {
+          "text": "/temp"
+        }
+      ],
+      [
+        {
+          "text": "/foehn"
+        },
+        {
+          "text": "/lift"
+        }
+      ]
+    ],
+    "resize_keyboard": true,
+    "one_time_keyboard": true
+  }
+}

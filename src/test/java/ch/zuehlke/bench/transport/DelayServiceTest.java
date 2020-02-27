@@ -33,12 +33,30 @@ class DelayServiceTest {
         assertThat(message, containsString("22:00"));
     }
 
+    @Test
+    void moreResultWithinOneSecond() {
+        sbbFahrplan.setResponse(
+                "<Journey fpTime=\"22:00\" fpDate=\"12.02.20\" delay=\"-\" platform=\"9\" targetLoc=\"Lausanne\" prod=\"IR 15#IR\" dir=\"Lausanne\" capacity=\"1|1\" is_reachable=\"0\" />\n" +
+                        "<Journey fpTime=\"22:14\" fpDate=\"12.02.20\" delay=\"-\" platform=\"8\" targetLoc=\"Fribourg/Freiburg\" prod=\"IR 15#IR\" dir=\"Fribourg/Freiburg\" capacity=\"1|1\" is_reachable=\"0\" />\n" +
+                        "<Journey fpTime=\"22:15\" fpDate=\"13.02.20\" delay=\"-\" platform=\"2\" targetLoc=\"Bern\" prod=\"RE 4356#RE\" dir=\"Bern\" capacity=\"2|3\" is_reachable=\"0\" />\n" +
+                        "<Journey fpTime=\"22:16\" fpDate=\"13.02.20\" delay=\"-\" platform=\"8\" targetLoc=\"Gen&#232;ve-A&#233;roport\" prod=\"IR 15#IR\" dir=\"Gen&#232;ve-A&#233;roport\" capacity=\"1|1\" is_reachable=\"0\" />\n" +
+                        "<Journey fpTime=\"00:00\" fpDate=\"13.02.20\" delay=\"-\" platform=\"8\" targetLoc=\"Gen&#232;ve-A&#233;roport\" prod=\"IR 15#IR\" dir=\"Gen&#232;ve-A&#233;roport\" capacity=\"1|1\" is_reachable=\"0\" />\n" +
+                        "<Journey fpTime=\"08:00\" fpDate=\"13.02.20\" delay=\"-\" platform=\"8\" targetLoc=\"Gen&#232;ve-A&#233;roport\" prod=\"IR 15#IR\" dir=\"Gen&#232;ve-A&#233;roport\" capacity=\"2|1\" is_reachable=\"0\" />\n");
+
+        String message = delayService.execute("Luzern", "Bern", "interregio");
+
+        assertThat(message.lines().count(), is(2l));
+        assertThat(message, containsString("22:00"));
+        assertThat(message, containsString("22:14"));
+    }
+
+
     @BeforeEach
     void setUp() {
         sbbFahrplan = new FahrplanSBBClientMock();
         delayService = new DelayService();
         delayService.sbbFahrplan = sbbFahrplan;
-        delayService.openDataClient = new OpenDataClientMock();
+        //    delayService.openDataClient = new OpenDataClientMock();
     }
 
     @Test

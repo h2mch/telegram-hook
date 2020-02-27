@@ -1,0 +1,7 @@
+GET http://localhost:8080/delay/sbb?from=8505000&to=8507000&products=001000
+Content-Type: application/json
+Accept: application/json
+
+###
+
+
