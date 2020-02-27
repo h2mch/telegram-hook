@@ -27,11 +27,14 @@ RUN mkdir -p /tmp/ssl-libs/lib \
 WORKDIR /home/app
 
 # Cache required dependencies as long as the pom.xml does not change
+# -B : Batch Mode / no user interactin
+# -C : Fail the build if checksums don’t match
+# -T 1C : Use one core
 COPY pom.xml .
-RUN $MAVEN_HOME/bin/mvn dependency:go-offline
+RUN $MAVEN_HOME/bin/mvn -B -C -T 1C dependency:go-offline dependency:resolve-plugins
 
 COPY ./src ./src
-RUN $MAVEN_HOME/bin/mvn clean package -Pnative
+RUN $MAVEN_HOME/bin/mvn -B -C -T 1C package -Pnative
 
 # Step 2: build the running container
 FROM registry.fedoraproject.org/fedora-minimal
