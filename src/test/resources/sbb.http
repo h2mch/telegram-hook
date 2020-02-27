@@ -80,33 +80,3 @@ GET http://fahrplan.sbb.ch/bin/stboard.exe/dn?productsFilter=001&boardType=dep&m
 Content-Type: application/json
 Accept: application/json
 
-###
-POST https://api.telegram.org/bot443252330:AAG1qRKi5FV3bsAqr6KGud-GtJGqjJt24HI/sendMessage?chat_id=77667638&text=menu
-content-type: application/json
-
-{
-  "text": "Keyboard",
-  "chat_id": 77667638,
-  "reply_markup": {
-    "keyboard": [
-      [
-        {
-          "text": "/delay"
-        },
-        {
-          "text": "/temp"
-        }
-      ],
-      [
-        {
-          "text": "/foehn"
-        },
-        {
-          "text": "/lift"
-        }
-      ]
-    ],
-    "resize_keyboard": true,
-    "one_time_keyboard": true
-  }
-}
