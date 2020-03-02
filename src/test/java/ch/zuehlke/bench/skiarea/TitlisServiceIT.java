@@ -1,15 +1,16 @@
 package ch.zuehlke.bench.skiarea;
 
+import org.junit.jupiter.api.Test;
+
 import io.quarkus.test.junit.QuarkusTest;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.containsString;
 
 @QuarkusTest
-class TitlisServiceTest {
+class TitlisServiceIT {
 
-    //    @Test
-//    @Disabled("Issue with dependency injection on restclient")
+    @Test
     void extract_of_lift_information() {
 
         given()

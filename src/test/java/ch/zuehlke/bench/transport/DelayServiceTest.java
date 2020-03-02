@@ -15,7 +15,7 @@ class DelayServiceTest {
 
     DelayService delayService;
 
-    FahrplanSBBClientMock sbbFahrplan;
+    FahrplanClientMock sbbFahrplan;
 
     @Test
     void happyCase() {
@@ -53,10 +53,9 @@ class DelayServiceTest {
 
     @BeforeEach
     void setUp() {
-        sbbFahrplan = new FahrplanSBBClientMock();
+        sbbFahrplan = new FahrplanClientMock();
         delayService = new DelayService();
-        delayService.sbbFahrplan = sbbFahrplan;
-        //    delayService.openDataClient = new OpenDataClientMock();
+        delayService.client = sbbFahrplan;
     }
 
     @Test

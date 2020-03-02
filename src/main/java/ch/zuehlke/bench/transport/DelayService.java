@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.json.JsonObject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -38,8 +39,10 @@ public class DelayService implements TelegramCommand {
 
     private static final Logger LOG = Logger.getLogger(DelayService.class);
 
+    @Inject
     @RestClient
-    FahrplanSBBClient sbbFahrplan;
+    FahrplanClient client;
+
 
     @Override
     public String execute(String... parameter) {
@@ -81,7 +84,7 @@ public class DelayService implements TelegramCommand {
             throw new IllegalArgumentException("From can not be empty");
         }
 
-        String response = sbbFahrplan.getConnections(
+        String response = client.getConnections(
                 products == null || products.isEmpty() ? "11111111" : products,
                 "dep",
                 1,

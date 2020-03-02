@@ -9,8 +9,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 @Path("/bin")
-@RegisterRestClient(configKey = "sbb-client")
-public interface FahrplanSBBClient {
+@RegisterRestClient(configKey = "fahrplan-client")
+public interface FahrplanClient {
 
     @GET
     @Path("/stboard.exe/dn")

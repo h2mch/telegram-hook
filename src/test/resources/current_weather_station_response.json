@@ -1,0 +1,20 @@
+{
+  "LUZ": {
+    "stationId": "LUZ",
+    "time": 1583178000000,
+    "temperature": 5.0,
+    "windSpeed": 3.6,
+    "windDirection": 112,
+    "windGust": 8.3,
+    "precipitation": 0.0,
+    "humidity": 89,
+    "pressureStandard": 994.0,
+    "pressureStation": 941.3,
+    "pressureSea": 995.0,
+    "sunshine": 0,
+    "dewPoint": 3.3,
+    "snowNew": 32767,
+    "snowTotal": 32767,
+    "foehn": 0
+  }
+}
