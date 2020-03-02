@@ -69,7 +69,7 @@ public class WeatherService implements TelegramCommand {
             try {
                 JsonObject currentWeather = stationOverview.getJsonObject(station);
                 JsonNumber timestamp = currentWeather.getJsonNumber("time");
-                ZonedDateTime zonedDateTime = Instant.ofEpochSecond(timestamp.longValue() / 1000).atZone(ZoneId.systemDefault());
+                ZonedDateTime zonedDateTime = Instant.ofEpochSecond(timestamp.longValue() / 1000).atZone(ZoneId.of("CET"));
                 return station + " " + currentWeather.getJsonNumber("temperature") + "°C (" + zonedDateTime.toLocalTime() + ")";
             } catch (Exception e) {
                 LOG.errorf(e, "Could not process response '%s' for station '%s'", stationOverview, station);
