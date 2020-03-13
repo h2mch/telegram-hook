@@ -48,7 +48,7 @@ public class WeatherService implements TelegramCommand {
 
     @POST
     @Path("/{stationId}")
-    public void triggerCurrentTempt(@PathParam("stationId") String stationId, @QueryParam("chatId") String chatId) {
+    public void triggerCurrentTemperatur(@PathParam("stationId") String stationId, @QueryParam("chatId") String chatId) {
         Set<String> stations = new HashSet<>(1);
         stations.add(stationId);
         String currentWeather = getCurrentWeather(stationId);
