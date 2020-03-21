@@ -19,7 +19,7 @@ RUN gu install native-image \
 
 ENV MAVEN_HOME /usr/share/maven
 ENV GRAALVM_HOME $JAVA_HOME
-ENV TELEGRAM_TOKEN $TELEGRAM_TOKEN
+ENV telegram.token $TELEGRAM_TOKEN
 
 # https://quarkus.io/guides/native-and-ssl
 RUN mkdir -p /tmp/ssl-libs/lib \
@@ -44,7 +44,7 @@ FROM registry.fedoraproject.org/fedora-minimal
 # see: https://github.com/quarkusio/quarkus/issues/4262
 ENV DISABLE_SIGNAL_HANDLERS false
 
-ENV TELEGRAM_TOKEN $TELEGRAM_TOKEN
+ENV telegram.token $TELEGRAM_TOKEN
 
 WORKDIR /work/
 COPY --from=graalVM-build /home/app/target/*-runner /work/application
