@@ -7,6 +7,7 @@ ARG MAVEN_VERSION=3.6.3
 ARG USER_HOME_DIR="/root"
 ARG SHA=c35a1803a6e70a126e80b2b3ae33eed961f83ed74d18fcd16909b2d44d7dada3203f1ffe726c17ef8dcca2dcaa9fca676987befeadc9b9f759967a8cb77181c0
 ARG BASE_URL=https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries
+ARG TELEGRAM_TOKEN=123:abcd
 
 RUN gu install native-image \
   && mkdir -p /usr/share/maven /usr/share/maven/ref \
@@ -18,6 +19,7 @@ RUN gu install native-image \
 
 ENV MAVEN_HOME /usr/share/maven
 ENV GRAALVM_HOME $JAVA_HOME
+ENV TELEGRAM_TOKEN $TELEGRAM_TOKEN
 
 # https://quarkus.io/guides/native-and-ssl
 RUN mkdir -p /tmp/ssl-libs/lib \
@@ -41,6 +43,8 @@ FROM registry.fedoraproject.org/fedora-minimal
 
 # see: https://github.com/quarkusio/quarkus/issues/4262
 ENV DISABLE_SIGNAL_HANDLERS false
+
+ENV TELEGRAM_TOKEN $TELEGRAM_TOKEN
 
 WORKDIR /work/
 COPY --from=graalVM-build /home/app/target/*-runner /work/application
