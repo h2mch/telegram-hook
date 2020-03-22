@@ -51,4 +51,4 @@ COPY --from=graalVM-build /home/app/target/*-runner /work/application
 COPY --from=graalVM-build /tmp/ssl-libs/ /work/
 RUN chmod 775 /work
 EXPOSE 8080
-ENTRYPOINT ["./application", "-Dquarkus.http.host=0.0.0.0", "-Djava.library.path=/work/lib", "-Djavax.net.ssl.trustStore=/work/cacerts"]
+ENTRYPOINT ["./application", "-Dquarkus.http.host=0.0.0.0", "-Djava.library.path=/work/lib", "-Djavax.net.ssl.trustStore=/work/cacerts", "-Dtelegram.token=$TELEGRAM_TOKEN"]
