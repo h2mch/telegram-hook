@@ -6,14 +6,16 @@ on:
 
 jobs:
   deploy:
-    name: Deploy job
+    name: Deployment job
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v1
+
       - name: Build Docker image
         run: |
           docker build . --build-arg TELEGRAM_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }} --tag  gcr.io/${{ secrets.GCLOUD_PROJECT }}/${{ secrets.GCLOUD_APP_NAME }}
+
       - name: Authenticate into Google Cloud Platform
         uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
