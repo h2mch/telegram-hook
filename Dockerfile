@@ -1,6 +1,5 @@
 # Step 1: build the native image
-FROM oracle/graalvm-ce:19.3.1-java11 as graalVM-build
-#FROM oracle/graalvm-ce:19.2.1 as graalVM-build
+FROM oracle/graalvm-ce:20.0.0-java11 as graalVM-build
 
 # Download and install Maven
 ARG MAVEN_VERSION=3.6.3
