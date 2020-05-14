@@ -9,7 +9,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 @Path("/bin")
-@RegisterRestClient(configKey = "fahrplan-client")
+@RegisterRestClient
 public interface FahrplanClient {
 
     @GET
