@@ -25,3 +25,19 @@ gcloud container images list-tags gcr.io/quarkus-265809/webhook --filter='-tags:
 λ docker build . --tag  gcr.io/quarkus-265809/webhook
 λ docker push gcr.io/quarkus-265809/webhook
 λ gcloud run deploy webhook --image gcr.io/quarkus-265809/webhook --platform managed --region europe-west1 --allow-unauthenticated
+
+
+# Start Jaeger Server (gRPC Port: 114250, WebUI: 16686)
+λ docker run    -p 5775:5775/udp -p 6831:6831/udp -p 6832:6832/udp \
+                -p 5778:5778 -p 16686:16686 \
+                -p 14268:14268 -p 14250:14250 \
+                jaegertracing/all-in-one:latest
+
+# Start Jaeger Server
+λ java -jar -Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager \
+          -Dtelegram.token=abcd:123 \
+          -javaagent:lib/opentelemetry-auto-0.2.2.jar \
+          -Dota.exporter.jar=lib/opentelemetry-auto-exporters-jaeger-0.2.2.jar \
+          -Dota.exporter.jaeger.endpoint=localhost:14250 \
+          -Dota.exporter.jaeger.service.name=telegram-hook \
+          target\telegram-hook-1.0.0-SNAPSHOT-runner.jar

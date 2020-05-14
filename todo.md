@@ -1,7 +1,9 @@
+Operation
+[ ] Open Telemetry is not working on google coud run. how to connect (see script for local usage)
+
 
 Build / Deploy Prozess
-[x] docker maven build "go offline" 
-[ ] automate build and deploy (inkl. rollback) use terraform?
+[ ]
 
 Feature
 [ ]
