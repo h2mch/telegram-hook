@@ -14,7 +14,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build . --build-arg TELEGRAM_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }} --tag  gcr.io/${{ secrets.GCLOUD_PROJECT }}/${{ secrets.GCLOUD_APP_NAME }}
+          docker build -f Dockerfile.native . --build-arg TELEGRAM_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }} --tag  gcr.io/${{ secrets.GCLOUD_PROJECT }}/${{ secrets.GCLOUD_APP_NAME }}
 
       - name: Authenticate into Google Cloud Platform
         uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
