@@ -36,7 +36,7 @@ COPY ./src ./src
 RUN $MAVEN_HOME/bin/mvn -B -C -T 1C package -Pnative
 
 # Step 2: build the running container
-FROM registry.fedoraproject.org/fedora-minimal
+FROM registry.access.redhat.com/ubi8/ubi-minimal
 ARG TELEGRAM_TOKEN=123456:abcdefghij
 
 # see: https://github.com/quarkusio/quarkus/issues/4262
